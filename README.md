@@ -1,8 +1,9 @@
-# Next.js Headless WordPress Getting Started Example
+# Next.js Headless Wordpress Authentication Faustjs Example
 
-## Setup
+This POC is the faustjs sample, with Authentication added like kellenmace [headless-wordpress-authentication-native-cookies-gatsby](https://github.com/kellenmace/headless-wordpress-authentication-native-cookies-gatsby) project.
 
-See the [setup steps](https://github.com/wpengine/faustjs#quick-start).
+[headless-wordpress-authentication-native-cookies](https://developers.wpengine.com/blog/headless-wordpress-authentication-native-cookies)
+[Faustjs Quick Start](https://github.com/wpengine/faustjs#quick-start).
 
 ## Run it
 
@@ -12,3 +13,15 @@ npm run dev
 ```
 
 [http://localhost:3000]()
+
+## Functionality
+
+- Log in
+- Log out
+- New user sign-ups
+- Password resets
+- User profile page
+- A “Members” page with gated content that only authenticated users can access
+- A “Create Post” page where users with the publish_posts capability can create new posts, but other users can’t.
+- A useAuth() custom hook that provides the user’s loggedIn status and user details to the rest of the app via React context.
+- Helper components to limit certain content to only authenticated/unauthenticated users.
