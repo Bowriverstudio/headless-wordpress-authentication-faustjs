@@ -1,10 +1,21 @@
 import CTA from "./CTA";
 import Footer from "./Footer";
-import LogInForm from "./LogInForm";
-import SignUpForm from "./SignUpForm";
 import Header from "./Header";
 import Hero from "./Hero";
-import Posts from "./Posts";
+import LogInForm from "./LogInForm";
 import Pagination from "./Pagination";
+import Posts from "./Posts";
+import SetPasswordForm from "./SetPasswordForm";
+import SignUpForm from "./SignUpForm";
 
-export { CTA, Footer, LogInForm, SignUpForm, Header, Hero, Posts, Pagination };
+export {
+  CTA,
+  Footer,
+  Header,
+  Hero,
+  LogInForm,
+  Pagination,
+  Posts,
+  SignUpForm,
+  SetPasswordForm,
+};
