@@ -22,10 +22,10 @@ npm run dev
 ## Functionality
 
 - Log in
+- Log out
 
 ## In Progress
 
-- Log out
 - New user sign-ups
 - Password resets
 - User profile page
