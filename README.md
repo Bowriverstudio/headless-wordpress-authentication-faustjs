@@ -3,7 +3,12 @@
 This POC is the faustjs sample, with Authentication added like kellenmace [headless-wordpress-authentication-native-cookies-gatsby](https://github.com/kellenmace/headless-wordpress-authentication-native-cookies-gatsby) project.
 
 [headless-wordpress-authentication-native-cookies](https://developers.wpengine.com/blog/headless-wordpress-authentication-native-cookies)
-[Faustjs Quick Start](https://github.com/wpengine/faustjs#quick-start).
+
+[faustjs - guides - auth](https://faustjs.org/docs/next/guides/auth)
+
+## Setup
+
+Follow the steps here: [Faustjs Quick Start](https://github.com/wpengine/faustjs#quick-start).
 
 ## Run it
 
@@ -17,6 +22,9 @@ npm run dev
 ## Functionality
 
 - Log in
+
+## In Progress
+
 - Log out
 - New user sign-ups
 - Password resets
