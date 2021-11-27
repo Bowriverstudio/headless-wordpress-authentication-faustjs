@@ -1,3 +1,4 @@
+import AuthContent from "./AuthContent";
 import CTA from "./CTA";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -8,8 +9,10 @@ import Posts from "./Posts";
 import SendPasswordResetEmailForm from "./SendPasswordResetEmailForm";
 import SetPasswordForm from "./SetPasswordForm";
 import SignUpForm from "./SignUpForm";
+import UnAuthContent from "./UnAuthContent";
 
 export {
+  AuthContent,
   CTA,
   Footer,
   Header,
@@ -20,4 +23,5 @@ export {
   SendPasswordResetEmailForm,
   SignUpForm,
   SetPasswordForm,
+  UnAuthContent,
 };

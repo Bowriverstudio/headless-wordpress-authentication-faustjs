@@ -16,7 +16,7 @@ function Header({
   const { isLoading, isAuthenticated } = useAuth({ shouldRedirect: false });
 
   const { menuItems } = client.useQuery();
-  const { viewer } = client.auth.useQuery();
+  const viewer = client?.auth?.useQuery()?.viewer;
 
   const unauthenticatedLinks = menuItems({
     where: { location: MenuLocationEnum.UNAUTHENTICATED },

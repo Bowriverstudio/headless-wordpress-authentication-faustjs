@@ -58,14 +58,14 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 - Sets new password
 - Password resets
 - Menu According to if you are logged in or not
+- A “Members” page with gated content that only authenticated users can access
+- A useAuth() custom hook that provides the user’s loggedIn status and user details to the rest of the app via React context. [Created by faustjs]
+- Helper components to limit certain content to only authenticated/unauthenticated users.
 
 ## In Progress
 
 - User profile page
-- A “Members” page with gated content that only authenticated users can access
 - A “Create Post” page where users with the publish_posts capability can create new posts, but other users can’t.
-- A useAuth() custom hook that provides the user’s loggedIn status and user details to the rest of the app via React context.
-- Helper components to limit certain content to only authenticated/unauthenticated users.
 
 ## Bugs
 
