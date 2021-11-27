@@ -6,6 +6,7 @@ import Hero from "./Hero";
 import LogInForm from "./LogInForm";
 import Pagination from "./Pagination";
 import Posts from "./Posts";
+import ProfileForm from "./ProfileForm";
 import SendPasswordResetEmailForm from "./SendPasswordResetEmailForm";
 import SetPasswordForm from "./SetPasswordForm";
 import SignUpForm from "./SignUpForm";
@@ -20,6 +21,7 @@ export {
   LogInForm,
   Pagination,
   Posts,
+  ProfileForm,
   SendPasswordResetEmailForm,
   SignUpForm,
   SetPasswordForm,

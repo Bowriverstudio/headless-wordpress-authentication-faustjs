@@ -1,12 +1,13 @@
 import { getNextStaticProps } from "@faustjs/next";
 import { client } from "client";
-import { Footer, Header, Hero, AuthContent } from "components";
+import { Footer, Header, Hero, AuthContent, ProfileForm } from "components";
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
 export default function Page() {
   const { useQuery } = client;
+
   const generalSettings = useQuery().generalSettings;
 
   return (
@@ -17,17 +18,13 @@ export default function Page() {
       />
 
       <Head>
-        <title>Members {generalSettings.title}</title>
+        <title>Profile {generalSettings.title}</title>
       </Head>
       <AuthContent>
-        <Hero title="Members Only" />
+        <Hero title="Profile" />
 
         <main className="content content-single">
-          <p>Here is some top-secret members-only content!</p>
-          <p>
-            Cannot access <Link href="/log-in">unauthenticated page</Link> -
-            will be redirect back here.
-          </p>
+          <ProfileForm />
         </main>
       </AuthContent>
       <Footer copyrightHolder={generalSettings.title} />

@@ -61,10 +61,10 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 - A “Members” page with gated content that only authenticated users can access
 - A useAuth() custom hook that provides the user’s loggedIn status and user details to the rest of the app via React context. [Created by faustjs]
 - Helper components to limit certain content to only authenticated/unauthenticated users.
+- User profile page
 
 ## In Progress
 
-- User profile page
 - A “Create Post” page where users with the publish_posts capability can create new posts, but other users can’t.
 
 ## Bugs
@@ -82,3 +82,7 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 
 - There is no user registered with that email address. Error Feedback not shown.
 - Success Feedback is not shown.
+
+## Profile Page
+
+- When the profile is updated - the data is reflected in the server but not the client. This is happening for the header as well.
