@@ -63,7 +63,7 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 - Helper components to limit certain content to only authenticated/unauthenticated users.
 - User profile page
 
-## In Progress
+## Todo
 
 - A “Create Post” page where users with the publish_posts capability can create new posts, but other users can’t.
 
