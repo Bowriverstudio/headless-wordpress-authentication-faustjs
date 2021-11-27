@@ -23,10 +23,13 @@ npm run dev
 
 ## Wordpress Side
 
-wp-admin/options-general.php
-Ensure Membership Membership Anyone can register
+Install wpe-headless plugin.
 
-Add somethign like the following to
+- Add Menu types - Authenticated, Unauthenticated
+  wp-admin/options-general.php
+  Ensure Membership Membership Anyone can register
+
+Add something like the following to
 
 ```php
 <?php
@@ -53,10 +56,11 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 - Log out
 - New user sign-ups
 - Sets new password
+- Password resets
+- Menu According to if you are logged in or not
 
 ## In Progress
 
-- Password resets
 - User profile page
 - A “Members” page with gated content that only authenticated users can access
 - A “Create Post” page where users with the publish_posts capability can create new posts, but other users can’t.
@@ -73,3 +77,8 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 ### set-password page
 
 - Mutation works but the feedback is incorrect. No error handling, and when the password is reset the component is not updated accordingly.
+
+### Forgot password Page
+
+- There is no user registered with that email address. Error Feedback not shown.
+- Success Feedback is not shown.

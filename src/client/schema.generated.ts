@@ -986,10 +986,10 @@ export interface MenuItemToMenuItemConnectionWhereArgs {
 
 /** Registered menu locations */
 export enum MenuLocationEnum {
-  /** Put the menu in the footer location */
-  FOOTER = "FOOTER",
-  /** Put the menu in the primary location */
-  PRIMARY = "PRIMARY",
+  /** Put the menu in the authenticated location */
+  AUTHENTICATED = "AUTHENTICATED",
+  /** Put the menu in the unauthenticated location */
+  UNAUTHENTICATED = "UNAUTHENTICATED",
 }
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
