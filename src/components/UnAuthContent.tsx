@@ -8,6 +8,7 @@ export default function UnAuthContent({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { isLoading, isAuthenticated } = useAuth({ shouldRedirect: false });
 
+  console.log("UnAuth", isLoading, isAuthenticated);
   // Navigate authenticated users to Members page.
   useEffect(() => {
     if (!isLoading && isAuthenticated) {

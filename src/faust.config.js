@@ -11,7 +11,7 @@ if (!process.env.NEXT_PUBLIC_WORDPRESS_URL) {
  */
 export default coreConfig({
   wpUrl: process.env.NEXT_PUBLIC_WORDPRESS_URL,
-  apiClientSecret: process.env.WP_HEADLESS_SECRET,
+  apiClientSecret: process.env.FAUSTWP_SECRET_KEY,
   authType: "local",
   loginPagePath: "/log-in",
 });
