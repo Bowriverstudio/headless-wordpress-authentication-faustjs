@@ -13,7 +13,15 @@ export default function ProfileForm() {
           lastName,
         },
       });
+
       return result.user;
+    },
+    {
+      onCompleted(data) {},
+      onError(error) {},
+      refetchQueries: [client?.auth?.useQuery()?.viewer],
+      awaitRefetchQueries: true,
+      suspense: false,
     }
   );
 

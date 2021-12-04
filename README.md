@@ -82,7 +82,3 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 
 - There is no user registered with that email address. Error Feedback not shown.
 - Success Feedback is not shown.
-
-## Profile Page
-
-- When the profile is updated - the data is reflected in the server but not the client. This is happening for the header as well.
