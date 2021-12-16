@@ -3,10 +3,13 @@ import { client, UpdateUserInput } from "client";
 
 export default function ProfileForm() {
   const [view, setView] = useState<"Viewing" | "Editing">("Viewing");
-  const { id, firstName, lastName } = client?.auth?.useQuery()?.viewer;
+  const [wasProfileUpdated, setWasProfileUpdated] = useState<boolean>(false);
+
+  const { isLoading: isAuthLoading, isAuthenticated } = client?.auth?.useAuth();
+  const viewer = client?.auth?.useQuery()?.viewer;
   const [updateUser, { data, isLoading, error }] = client.auth.useMutation(
-    (mutation, { id, firstName, lastName }: UpdateUserInput) => {
-      const result = mutation.updateUser({
+    (mutation, { id, firstName, lastName, email }: UpdateUserInput) => {
+      const { user } = mutation.updateUser({
         input: {
           id,
           firstName,
@@ -14,18 +17,21 @@ export default function ProfileForm() {
         },
       });
 
-      return result.user;
+      if (user) {
+        setWasProfileUpdated(true);
+        return {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          id: user.id,
+        };
+      }
     },
     {
-      onCompleted(data) {},
-      onError(error) {},
       refetchQueries: [client?.auth?.useQuery()?.viewer],
-      awaitRefetchQueries: true,
-      suspense: false,
+      awaitRefetchQueries: false,
+      // suspense: false,
     }
   );
-
-  const wasProfileUpdated = Boolean(data?.databaseId);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,7 +40,7 @@ export default function ProfileForm() {
 
     updateUser({
       args: {
-        id,
+        id: viewer?.id,
         ...values,
       },
     })
@@ -55,8 +61,8 @@ export default function ProfileForm() {
       ) : null}
       {view == "Viewing" && (
         <>
-          <div>First Name: {firstName}</div>
-          <div>Last Name: {lastName}</div>
+          <div>First Name: {viewer?.firstName}</div>
+          <div>Last Name: {viewer?.lastName}</div>
           <button onClick={() => setView("Editing")}>Edit Profile</button>
         </>
       )}
@@ -69,7 +75,7 @@ export default function ProfileForm() {
               id="profile-first-name"
               type="text"
               name="firstName"
-              defaultValue={firstName || ""}
+              defaultValue={viewer?.firstName || ""}
               autoComplete="given-name"
             />
             <label htmlFor="profile-last-name">Last Name</label>
@@ -77,7 +83,7 @@ export default function ProfileForm() {
               id="profile-last-name"
               type="text"
               name="lastName"
-              defaultValue={lastName || ""}
+              defaultValue={viewer?.lastName || ""}
               autoComplete="family-name"
             />
             {error ? <p className="error-message">{error.message}</p> : null}
