@@ -82,3 +82,98 @@ function brs_new_user_notification_email($wp_new_user_notification_email, $user,
 
 - There is no user registered with that email address. Error Feedback not shown.
 - Success Feedback is not shown.
+
+n GQty, the data selection usually needs to be called to be included in the GraphQL query, you've likely seen this. This is the same case here. One of the solutions you could do is to return the fields that you intend on using in your UI, this will guarantee the data selections get called, and are updated correctly.
+Take for example the code you pasted in chat. if you were to return the fields you intend on using/mutation in the mutation, this should work as you intend:
+const { id, firstName, lastName } = client?.auth?.useQuery()?.viewer;
+const [updateUser, { data, isLoading, error }] = client.auth.useMutation(
+(mutation, { id, firstName, lastName }: UpdateUserInput) => {
+const {user} = mutation.updateUser({
+input: {
+id,
+firstName,
+lastName,
+},
+});
+
+      if(user) {
+        return {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName
+        }
+      }
+    },
+    {
+      refetchQueries: [
+        client?.auth?.useQuery()?.viewer,
+      ],
+      awaitRefetchQueries: false,
+      // suspense: false,
+    }
+
+);
+
+And here is a full working example that you can paste directly into a page for testing purposes:
+import { client, UpdateUserInput } from 'client';
+
+export default function Page() {
+const { isLoading: isAuthLoading, isAuthenticated } = client?.auth?.useAuth();
+const viewer = client?.auth?.useQuery()?.viewer;
+const [updateUser, { data, isLoading, error }] = client.auth.useMutation(
+(mutation, { id, firstName, lastName, email }: UpdateUserInput) => {
+const { user } = mutation.updateUser({
+input: {
+id,
+firstName,
+lastName,
+},
+});
+
+      if (user) {
+        return {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          id: user.id,
+        };
+      }
+    },
+    {
+      refetchQueries: [client?.auth?.useQuery()?.viewer],
+      awaitRefetchQueries: false,
+      // suspense: false,
+    },
+
+);
+
+if (isAuthLoading) {
+return <div>Loading...</div>;
+}
+
+if (!isAuthenticated) {
+return <div>Not authenticated</div>;
+}
+
+return (
+<>
+
+<div>First name: {viewer?.firstName}</div>
+<div>Last name: {viewer?.lastName}</div>
+<div>Email: {viewer?.email}</div>
+
+      <div>
+        <button
+          onClick={() =>
+            updateUser({
+              args: { id: viewer?.id, firstName: 'John', lastName: 'Doe' },
+            })
+          }
+        >
+          Update user
+        </button>
+      </div>
+    </>
+
+);
+}
+I

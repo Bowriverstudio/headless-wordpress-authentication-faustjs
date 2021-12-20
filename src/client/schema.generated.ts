@@ -377,6 +377,8 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   PAGE = "PAGE",
   /** The Type of Content object */
+  PHOTO = "PHOTO",
+  /** The Type of Content object */
   POST = "POST",
 }
 
@@ -536,6 +538,28 @@ export interface CreatePageInput {
   menuOrder?: InputMaybe<Scalars["Int"]>;
   /** The ID of the parent object */
   parentId?: InputMaybe<Scalars["ID"]>;
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars["String"]>;
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars["String"]>;
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title?: InputMaybe<Scalars["String"]>;
+}
+
+/** Input for the createPhoto mutation */
+export interface CreatePhotoInput {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** The content of the object */
+  content?: InputMaybe<Scalars["String"]>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars["String"]>;
+  /** The excerpt of the object */
+  excerpt?: InputMaybe<Scalars["String"]>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars["Int"]>;
   /** The password used to protect the content of the object */
   password?: InputMaybe<Scalars["String"]>;
   /** The slug of the object */
@@ -727,6 +751,16 @@ export interface DeletePageInput {
   /** Whether the object should be force deleted instead of being moved to the trash */
   forceDelete?: InputMaybe<Scalars["Boolean"]>;
   /** The ID of the page to delete */
+  id: Scalars["ID"];
+}
+
+/** Input for the deletePhoto mutation */
+export interface DeletePhotoInput {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete?: InputMaybe<Scalars["Boolean"]>;
+  /** The ID of the Photo to delete */
   id: Scalars["ID"];
 }
 
@@ -1320,6 +1354,18 @@ export interface PageToRevisionConnectionWhereArgs {
   status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
   title?: InputMaybe<Scalars["String"]>;
+}
+
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum PhotoIdType {
+  /** Identify a resource by the Database ID. */
+  DATABASE_ID = "DATABASE_ID",
+  /** Identify a resource by the (hashed) Global ID. */
+  ID = "ID",
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  SLUG = "SLUG",
+  /** Identify a resource by the URI. */
+  URI = "URI",
 }
 
 /** Set relationships between the post to categories */
@@ -2262,6 +2308,44 @@ export interface RootQueryToPageConnectionWhereArgs {
   title?: InputMaybe<Scalars["String"]>;
 }
 
+/** Arguments for filtering the RootQueryToPhotoConnection connection */
+export interface RootQueryToPhotoConnectionWhereArgs {
+  /** Filter the connection based on dates */
+  dateQuery?: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: InputMaybe<Scalars["Boolean"]>;
+  /** Specific ID of the object */
+  id?: InputMaybe<Scalars["Int"]>;
+  /** Array of IDs for the objects to retrieve */
+  in?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: InputMaybe<Scalars["String"]>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: InputMaybe<Scalars["ID"]>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  /** Show posts with a specific password. */
+  password?: InputMaybe<Scalars["String"]>;
+  /** Show Posts based on a keyword search */
+  search?: InputMaybe<Scalars["String"]>;
+  /** Retrieve posts where post status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status?: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: InputMaybe<Scalars["String"]>;
+}
+
 /** Arguments for filtering the RootQueryToPostConnection connection */
 export interface RootQueryToPostConnectionWhereArgs {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
@@ -2784,6 +2868,30 @@ export interface UpdatePageInput {
   title?: InputMaybe<Scalars["String"]>;
 }
 
+/** Input for the updatePhoto mutation */
+export interface UpdatePhotoInput {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** The content of the object */
+  content?: InputMaybe<Scalars["String"]>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date?: InputMaybe<Scalars["String"]>;
+  /** The excerpt of the object */
+  excerpt?: InputMaybe<Scalars["String"]>;
+  /** The ID of the Photo object */
+  id: Scalars["ID"];
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder?: InputMaybe<Scalars["Int"]>;
+  /** The password used to protect the content of the object */
+  password?: InputMaybe<Scalars["String"]>;
+  /** The slug of the object */
+  slug?: InputMaybe<Scalars["String"]>;
+  /** The status of the object */
+  status?: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title?: InputMaybe<Scalars["String"]>;
+}
+
 /** Input for the UpdatePostFormat mutation */
 export interface UpdatePostFormatInput {
   /** The slug that the post_format will be an alias of */
@@ -3287,6 +3395,7 @@ export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   MimeTypeEnum: true,
   OrderEnum: true,
   PageIdType: true,
+  PhotoIdType: true,
   PostFormatIdType: true,
   PostIdType: true,
   PostObjectFieldFormatEnum: true,
@@ -3920,6 +4029,22 @@ export const generatedSchema = {
     clientMutationId: { __type: "String" },
     page: { __type: "Page" },
   },
+  CreatePhotoInput: {
+    clientMutationId: { __type: "String" },
+    content: { __type: "String" },
+    date: { __type: "String" },
+    excerpt: { __type: "String" },
+    menuOrder: { __type: "Int" },
+    password: { __type: "String" },
+    slug: { __type: "String" },
+    status: { __type: "PostStatusEnum" },
+    title: { __type: "String" },
+  },
+  CreatePhotoPayload: {
+    __typename: { __type: "String!" },
+    clientMutationId: { __type: "String" },
+    photo: { __type: "Photo" },
+  },
   CreatePostFormatInput: {
     aliasOf: { __type: "String" },
     clientMutationId: { __type: "String" },
@@ -4064,6 +4189,17 @@ export const generatedSchema = {
     clientMutationId: { __type: "String" },
     deletedId: { __type: "ID" },
     page: { __type: "Page" },
+  },
+  DeletePhotoInput: {
+    clientMutationId: { __type: "String" },
+    forceDelete: { __type: "Boolean" },
+    id: { __type: "ID!" },
+  },
+  DeletePhotoPayload: {
+    __typename: { __type: "String!" },
+    clientMutationId: { __type: "String" },
+    deletedId: { __type: "ID" },
+    photo: { __type: "Photo" },
   },
   DeletePostFormatInput: {
     clientMutationId: { __type: "String" },
@@ -4858,6 +4994,63 @@ export const generatedSchema = {
     stati: { __type: "[PostStatusEnum]" },
     status: { __type: "PostStatusEnum" },
     title: { __type: "String" },
+  },
+  Photo: {
+    __typename: { __type: "String!" },
+    conditionalTags: { __type: "ConditionalTags" },
+    content: {
+      __type: "String",
+      __args: { format: "PostObjectFieldFormatEnum" },
+    },
+    contentType: { __type: "ContentNodeToContentTypeConnectionEdge" },
+    databaseId: { __type: "Int!" },
+    date: { __type: "String" },
+    dateGmt: { __type: "String" },
+    desiredSlug: { __type: "String" },
+    editingLockedBy: { __type: "ContentNodeToEditLockConnectionEdge" },
+    enclosure: { __type: "String" },
+    enqueuedScripts: {
+      __type: "ContentNodeToEnqueuedScriptConnection",
+      __args: { after: "String", before: "String", first: "Int", last: "Int" },
+    },
+    enqueuedStylesheets: {
+      __type: "ContentNodeToEnqueuedStylesheetConnection",
+      __args: { after: "String", before: "String", first: "Int", last: "Int" },
+    },
+    excerpt: {
+      __type: "String",
+      __args: { format: "PostObjectFieldFormatEnum" },
+    },
+    featuredImage: { __type: "NodeWithFeaturedImageToMediaItemConnectionEdge" },
+    featuredImageDatabaseId: { __type: "Int" },
+    featuredImageId: { __type: "ID" },
+    guid: { __type: "String" },
+    id: { __type: "ID!" },
+    isContentNode: { __type: "Boolean!" },
+    isPreview: { __type: "Boolean" },
+    isRestricted: { __type: "Boolean" },
+    isTermNode: { __type: "Boolean!" },
+    lastEditedBy: { __type: "ContentNodeToEditLastConnectionEdge" },
+    link: { __type: "String" },
+    modified: { __type: "String" },
+    modifiedGmt: { __type: "String" },
+    photoId: { __type: "Int!" },
+    preview: { __type: "PhotoToPreviewConnectionEdge" },
+    previewRevisionDatabaseId: { __type: "Int" },
+    previewRevisionId: { __type: "ID" },
+    slug: { __type: "String" },
+    status: { __type: "String" },
+    template: { __type: "ContentTemplate" },
+    templates: { __type: "[String]" },
+    title: {
+      __type: "String",
+      __args: { format: "PostObjectFieldFormatEnum" },
+    },
+    uri: { __type: "String" },
+  },
+  PhotoToPreviewConnectionEdge: {
+    __typename: { __type: "String!" },
+    node: { __type: "Photo" },
   },
   Plugin: {
     __typename: { __type: "String!" },
@@ -5727,6 +5920,36 @@ export const generatedSchema = {
     status: { __type: "PostStatusEnum" },
     title: { __type: "String" },
   },
+  RootQueryToPhotoConnection: {
+    __typename: { __type: "String!" },
+    edges: { __type: "[RootQueryToPhotoConnectionEdge]" },
+    nodes: { __type: "[Photo]" },
+    pageInfo: { __type: "WPPageInfo" },
+  },
+  RootQueryToPhotoConnectionEdge: {
+    __typename: { __type: "String!" },
+    cursor: { __type: "String" },
+    node: { __type: "Photo" },
+  },
+  RootQueryToPhotoConnectionWhereArgs: {
+    dateQuery: { __type: "DateQueryInput" },
+    hasPassword: { __type: "Boolean" },
+    id: { __type: "Int" },
+    in: { __type: "[ID]" },
+    mimeType: { __type: "MimeTypeEnum" },
+    name: { __type: "String" },
+    nameIn: { __type: "[String]" },
+    notIn: { __type: "[ID]" },
+    orderby: { __type: "[PostObjectsConnectionOrderbyInput]" },
+    parent: { __type: "ID" },
+    parentIn: { __type: "[ID]" },
+    parentNotIn: { __type: "[ID]" },
+    password: { __type: "String" },
+    search: { __type: "String" },
+    stati: { __type: "[PostStatusEnum]" },
+    status: { __type: "PostStatusEnum" },
+    title: { __type: "String" },
+  },
   RootQueryToPluginConnection: {
     __typename: { __type: "String!" },
     edges: { __type: "[RootQueryToPluginConnectionEdge]" },
@@ -6282,6 +6505,23 @@ export const generatedSchema = {
     clientMutationId: { __type: "String" },
     page: { __type: "Page" },
   },
+  UpdatePhotoInput: {
+    clientMutationId: { __type: "String" },
+    content: { __type: "String" },
+    date: { __type: "String" },
+    excerpt: { __type: "String" },
+    id: { __type: "ID!" },
+    menuOrder: { __type: "Int" },
+    password: { __type: "String" },
+    slug: { __type: "String" },
+    status: { __type: "PostStatusEnum" },
+    title: { __type: "String" },
+  },
+  UpdatePhotoPayload: {
+    __typename: { __type: "String!" },
+    clientMutationId: { __type: "String" },
+    photo: { __type: "Photo" },
+  },
   UpdatePostFormatInput: {
     aliasOf: { __type: "String" },
     clientMutationId: { __type: "String" },
@@ -6743,6 +6983,10 @@ export const generatedSchema = {
       __type: "CreatePagePayload",
       __args: { input: "CreatePageInput!" },
     },
+    createPhoto: {
+      __type: "CreatePhotoPayload",
+      __args: { input: "CreatePhotoInput!" },
+    },
     createPost: {
       __type: "CreatePostPayload",
       __args: { input: "CreatePostInput!" },
@@ -6774,6 +7018,10 @@ export const generatedSchema = {
     deletePage: {
       __type: "DeletePagePayload",
       __args: { input: "DeletePageInput!" },
+    },
+    deletePhoto: {
+      __type: "DeletePhotoPayload",
+      __args: { input: "DeletePhotoInput!" },
     },
     deletePost: {
       __type: "DeletePostPayload",
@@ -6827,6 +7075,10 @@ export const generatedSchema = {
     updatePage: {
       __type: "UpdatePagePayload",
       __args: { input: "UpdatePageInput!" },
+    },
+    updatePhoto: {
+      __type: "UpdatePhotoPayload",
+      __args: { input: "UpdatePhotoInput!" },
     },
     updatePost: {
       __type: "UpdatePostPayload",
@@ -6975,6 +7227,24 @@ export const generatedSchema = {
         where: "RootQueryToPageConnectionWhereArgs",
       },
     },
+    photo: {
+      __type: "Photo",
+      __args: { asPreview: "Boolean", id: "ID!", idType: "PhotoIdType" },
+    },
+    photoBy: {
+      __type: "Photo",
+      __args: { id: "ID", photoId: "Int", slug: "String", uri: "String" },
+    },
+    photos: {
+      __type: "RootQueryToPhotoConnection",
+      __args: {
+        after: "String",
+        before: "String",
+        first: "Int",
+        last: "Int",
+        where: "RootQueryToPhotoConnectionWhereArgs",
+      },
+    },
     plugin: { __type: "Plugin", __args: { id: "ID!" } },
     plugins: {
       __type: "RootQueryToPluginConnection",
@@ -7104,13 +7374,21 @@ export const generatedSchema = {
       "Menu",
       "MenuItem",
       "Page",
+      "Photo",
       "Post",
       "PostFormat",
       "Tag",
       "User",
     ],
     HierarchicalTermNode: ["Category"],
-    MenuItemLinkable: ["Category", "Page", "Post", "PostFormat", "Tag"],
+    MenuItemLinkable: [
+      "Category",
+      "Page",
+      "Photo",
+      "Post",
+      "PostFormat",
+      "Tag",
+    ],
     Node: [
       "Category",
       "Comment",
@@ -7122,6 +7400,7 @@ export const generatedSchema = {
       "Menu",
       "MenuItem",
       "Page",
+      "Photo",
       "Plugin",
       "Post",
       "PostFormat",
@@ -7137,6 +7416,7 @@ export const generatedSchema = {
       "ContentType",
       "MediaItem",
       "Page",
+      "Photo",
       "Post",
       "PostFormat",
       "Tag",
@@ -7146,18 +7426,25 @@ export const generatedSchema = {
     ContentRevisionUnion: ["Page", "Post"],
     ContentTemplate: ["DefaultTemplate"],
     EnqueuedAsset: ["EnqueuedScript", "EnqueuedStylesheet"],
-    ContentNode: ["MediaItem", "Page", "Post"],
+    ContentNode: ["MediaItem", "Page", "Photo", "Post"],
     HierarchicalContentNode: ["MediaItem", "Page"],
     NodeWithAuthor: ["MediaItem", "Page", "Post"],
     NodeWithComments: ["MediaItem", "Page", "Post"],
-    NodeWithTemplate: ["MediaItem", "Page", "Post"],
-    NodeWithTitle: ["MediaItem", "Page", "Post"],
-    MenuItemObjectUnion: ["Category", "Page", "Post", "PostFormat", "Tag"],
-    NodeWithContentEditor: ["Page", "Post"],
-    NodeWithFeaturedImage: ["Page", "Post"],
+    NodeWithTemplate: ["MediaItem", "Page", "Photo", "Post"],
+    NodeWithTitle: ["MediaItem", "Page", "Photo", "Post"],
+    MenuItemObjectUnion: [
+      "Category",
+      "Page",
+      "Photo",
+      "Post",
+      "PostFormat",
+      "Tag",
+    ],
+    NodeWithContentEditor: ["Page", "Photo", "Post"],
+    NodeWithFeaturedImage: ["Page", "Photo", "Post"],
     NodeWithPageAttributes: ["Page"],
     NodeWithRevisions: ["Page", "Post"],
-    NodeWithExcerpt: ["Post"],
+    NodeWithExcerpt: ["Photo", "Post"],
     NodeWithTrackbacks: ["Post"],
   },
 } as const;
@@ -7931,7 +8218,7 @@ export interface ConditionalTags {
  * Nodes used to manage content
  */
 export interface ContentNode {
-  __typename?: "MediaItem" | "Page" | "Post";
+  __typename?: "MediaItem" | "Page" | "Photo" | "Post";
   conditionalTags?: Maybe<ConditionalTags>;
   /**
    * Connection between the ContentNode type and the ContentType type
@@ -8504,6 +8791,21 @@ export interface CreatePagePayload {
 }
 
 /**
+ * The payload for the createPhoto mutation
+ */
+export interface CreatePhotoPayload {
+  __typename?: "CreatePhotoPayload";
+  /**
+   * If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+   */
+  clientMutationId?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The Post object mutation type.
+   */
+  photo?: Maybe<Photo>;
+}
+
+/**
  * The payload for the createPostFormat mutation
  */
 export interface CreatePostFormatPayload {
@@ -8574,6 +8876,7 @@ export interface DatabaseIdentifier {
     | "Menu"
     | "MenuItem"
     | "Page"
+    | "Photo"
     | "Post"
     | "PostFormat"
     | "Tag"
@@ -8670,6 +8973,25 @@ export interface DeletePagePayload {
    * The object before it was deleted
    */
   page?: Maybe<Page>;
+}
+
+/**
+ * The payload for the deletePhoto mutation
+ */
+export interface DeletePhotoPayload {
+  __typename?: "DeletePhotoPayload";
+  /**
+   * If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+   */
+  clientMutationId?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The ID of the deleted object
+   */
+  deletedId?: Maybe<ScalarsEnums["ID"]>;
+  /**
+   * The object before it was deleted
+   */
+  photo?: Maybe<Photo>;
 }
 
 /**
@@ -9768,7 +10090,7 @@ export interface MenuItem {
  * Nodes that can be linked to as Menu Items
  */
 export interface MenuItemLinkable {
-  __typename?: "Category" | "Page" | "Post" | "PostFormat" | "Tag";
+  __typename?: "Category" | "Page" | "Photo" | "Post" | "PostFormat" | "Tag";
   /**
    * The unique resource identifier path
    */
@@ -9788,7 +10110,7 @@ export interface MenuItemLinkable {
  * Deprecated in favor of MenuItemLinkeable Interface
  */
 export interface MenuItemObjectUnion {
-  __typename?: "Category" | "Page" | "Post" | "PostFormat" | "Tag";
+  __typename?: "Category" | "Page" | "Photo" | "Post" | "PostFormat" | "Tag";
   $on: $MenuItemObjectUnion;
 }
 
@@ -9897,6 +10219,7 @@ export interface Node {
     | "Menu"
     | "MenuItem"
     | "Page"
+    | "Photo"
     | "Plugin"
     | "Post"
     | "PostFormat"
@@ -9963,7 +10286,7 @@ export interface NodeWithComments {
  * A node that supports the content editor
  */
 export interface NodeWithContentEditor {
-  __typename?: "Page" | "Post";
+  __typename?: "Page" | "Photo" | "Post";
   /**
    * The content of the post.
    */
@@ -9980,7 +10303,7 @@ export interface NodeWithContentEditor {
  * A node that can have an excerpt
  */
 export interface NodeWithExcerpt {
-  __typename?: "Post";
+  __typename?: "Photo" | "Post";
   /**
    * The excerpt of the post.
    */
@@ -9997,7 +10320,7 @@ export interface NodeWithExcerpt {
  * A node that can have a featured image set
  */
 export interface NodeWithFeaturedImage {
-  __typename?: "Page" | "Post";
+  __typename?: "Page" | "Photo" | "Post";
   conditionalTags?: Maybe<ConditionalTags>;
   /**
    * Connection between the ContentNode type and the ContentType type
@@ -10203,7 +10526,7 @@ export interface NodeWithRevisionsToContentNodeConnectionEdge {
  * A node that can have a template associated with it
  */
 export interface NodeWithTemplate {
-  __typename?: "MediaItem" | "Page" | "Post";
+  __typename?: "MediaItem" | "Page" | "Photo" | "Post";
   /**
    * The template assigned to the node
    */
@@ -10215,7 +10538,7 @@ export interface NodeWithTemplate {
  * A node that NodeWith a title
  */
 export interface NodeWithTitle {
-  __typename?: "MediaItem" | "Page" | "Post";
+  __typename?: "MediaItem" | "Page" | "Photo" | "Post";
   /**
    * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
    */
@@ -10663,6 +10986,208 @@ export interface PageToRevisionConnectionEdge {
    * The item at the end of the edge
    */
   node?: Maybe<Page>;
+}
+
+/**
+ * The Photo type
+ */
+export interface Photo {
+  __typename?: "Photo";
+  conditionalTags?: Maybe<ConditionalTags>;
+  /**
+   * The content of the post.
+   */
+  content: (args?: {
+    /**
+     * Format of the field output
+     */
+    format?: Maybe<PostObjectFieldFormatEnum>;
+  }) => Maybe<ScalarsEnums["String"]>;
+  /**
+   * Connection between the ContentNode type and the ContentType type
+   */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /**
+   * The unique resource identifier path
+   */
+  databaseId: ScalarsEnums["Int"];
+  /**
+   * Post publishing date.
+   */
+  date?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The publishing date set in GMT.
+   */
+  dateGmt?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The desired slug of the post
+   */
+  desiredSlug?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds
+   */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /**
+   * The RSS enclosure for the object
+   */
+  enclosure?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * Connection between the ContentNode type and the EnqueuedScript type
+   */
+  enqueuedScripts: (args?: {
+    /**
+     * Cursor used along with the "first" argument to reference where in the dataset to get data
+     */
+    after?: Maybe<Scalars["String"]>;
+    /**
+     * Cursor used along with the "last" argument to reference where in the dataset to get data
+     */
+    before?: Maybe<Scalars["String"]>;
+    /**
+     * The number of items to return after the referenced "after" cursor
+     */
+    first?: Maybe<Scalars["Int"]>;
+    /**
+     * The number of items to return before the referenced "before" cursor
+     */
+    last?: Maybe<Scalars["Int"]>;
+  }) => Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /**
+   * Connection between the ContentNode type and the EnqueuedStylesheet type
+   */
+  enqueuedStylesheets: (args?: {
+    /**
+     * Cursor used along with the "first" argument to reference where in the dataset to get data
+     */
+    after?: Maybe<Scalars["String"]>;
+    /**
+     * Cursor used along with the "last" argument to reference where in the dataset to get data
+     */
+    before?: Maybe<Scalars["String"]>;
+    /**
+     * The number of items to return after the referenced "after" cursor
+     */
+    first?: Maybe<Scalars["Int"]>;
+    /**
+     * The number of items to return before the referenced "before" cursor
+     */
+    last?: Maybe<Scalars["Int"]>;
+  }) => Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /**
+   * The excerpt of the post.
+   */
+  excerpt: (args?: {
+    /**
+     * Format of the field output
+     */
+    format?: Maybe<PostObjectFieldFormatEnum>;
+  }) => Maybe<ScalarsEnums["String"]>;
+  /**
+   * Connection between the NodeWithFeaturedImage type and the MediaItem type
+   */
+  featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+  /**
+   * The database identifier for the featured image node assigned to the content node
+   */
+  featuredImageDatabaseId?: Maybe<ScalarsEnums["Int"]>;
+  /**
+   * Globally unique ID of the featured image assigned to the node
+   */
+  featuredImageId?: Maybe<ScalarsEnums["ID"]>;
+  /**
+   * The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+   */
+  guid?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The globally unique identifier of the photo object.
+   */
+  id: ScalarsEnums["ID"];
+  /**
+   * Whether the node is a Content Node
+   */
+  isContentNode: ScalarsEnums["Boolean"];
+  /**
+   * Whether the object is a node in the preview state
+   */
+  isPreview?: Maybe<ScalarsEnums["Boolean"]>;
+  /**
+   * Whether the object is restricted from the current viewer
+   */
+  isRestricted?: Maybe<ScalarsEnums["Boolean"]>;
+  /**
+   * Whether the node is a Term
+   */
+  isTermNode: ScalarsEnums["Boolean"];
+  /**
+   * The user that most recently edited the node
+   */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /**
+   * The permalink of the post
+   */
+  link?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.
+   */
+  modified?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT.
+   */
+  modifiedGmt?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  photoId: ScalarsEnums["Int"];
+  /**
+   * Connection between the Photo type and the Photo type
+   */
+  preview?: Maybe<PhotoToPreviewConnectionEdge>;
+  /**
+   * The database id of the preview node
+   */
+  previewRevisionDatabaseId?: Maybe<ScalarsEnums["Int"]>;
+  /**
+   * Whether the object is a node in the preview state
+   */
+  previewRevisionId?: Maybe<ScalarsEnums["ID"]>;
+  /**
+   * The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+   */
+  slug?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The current status of the object
+   */
+  status?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The template assigned to a node of content
+   */
+  template?: Maybe<ContentTemplate>;
+  templates?: Maybe<Array<Maybe<ScalarsEnums["String"]>>>;
+  /**
+   * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
+   */
+  title: (args?: {
+    /**
+     * Format of the field output
+     */
+    format?: Maybe<PostObjectFieldFormatEnum>;
+  }) => Maybe<ScalarsEnums["String"]>;
+  /**
+   * The unique resource identifier path
+   */
+  uri?: Maybe<ScalarsEnums["String"]>;
+}
+
+/**
+ * Connection between the Photo type and the Photo type
+ */
+export interface PhotoToPreviewConnectionEdge {
+  __typename?: "PhotoToPreviewConnectionEdge";
+  /**
+   * The node of the connection, without the edges
+   */
+  node?: Maybe<Photo>;
 }
 
 /**
@@ -12091,6 +12616,40 @@ export interface RootQueryToPageConnectionEdge {
 }
 
 /**
+ * Connection between the RootQuery type and the Photo type
+ */
+export interface RootQueryToPhotoConnection {
+  __typename?: "RootQueryToPhotoConnection";
+  /**
+   * Edges for the RootQueryToPhotoConnection connection
+   */
+  edges?: Maybe<Array<Maybe<RootQueryToPhotoConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   */
+  nodes?: Maybe<Array<Maybe<Photo>>>;
+  /**
+   * Information about pagination in a connection.
+   */
+  pageInfo?: Maybe<WPPageInfo>;
+}
+
+/**
+ * An edge in a connection
+ */
+export interface RootQueryToPhotoConnectionEdge {
+  __typename?: "RootQueryToPhotoConnectionEdge";
+  /**
+   * A cursor for use in pagination
+   */
+  cursor?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The item at the end of the edge
+   */
+  node?: Maybe<Photo>;
+}
+
+/**
  * Connection between the RootQuery type and the Plugin type
  */
 export interface RootQueryToPluginConnection {
@@ -13089,6 +13648,7 @@ export interface UniformResourceIdentifiable {
     | "ContentType"
     | "MediaItem"
     | "Page"
+    | "Photo"
     | "Post"
     | "PostFormat"
     | "Tag"
@@ -13176,6 +13736,21 @@ export interface UpdatePagePayload {
    * The Post object mutation type.
    */
   page?: Maybe<Page>;
+}
+
+/**
+ * The payload for the updatePhoto mutation
+ */
+export interface UpdatePhotoPayload {
+  __typename?: "UpdatePhotoPayload";
+  /**
+   * If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+   */
+  clientMutationId?: Maybe<ScalarsEnums["String"]>;
+  /**
+   * The Post object mutation type.
+   */
+  photo?: Maybe<Photo>;
 }
 
 /**
@@ -13926,6 +14501,7 @@ export interface Mutation {
     input: CreateMediaItemInput;
   }) => Maybe<CreateMediaItemPayload>;
   createPage: (args: { input: CreatePageInput }) => Maybe<CreatePagePayload>;
+  createPhoto: (args: { input: CreatePhotoInput }) => Maybe<CreatePhotoPayload>;
   createPost: (args: { input: CreatePostInput }) => Maybe<CreatePostPayload>;
   createPostFormat: (args: {
     input: CreatePostFormatInput;
@@ -13942,6 +14518,7 @@ export interface Mutation {
     input: DeleteMediaItemInput;
   }) => Maybe<DeleteMediaItemPayload>;
   deletePage: (args: { input: DeletePageInput }) => Maybe<DeletePagePayload>;
+  deletePhoto: (args: { input: DeletePhotoInput }) => Maybe<DeletePhotoPayload>;
   deletePost: (args: { input: DeletePostInput }) => Maybe<DeletePostPayload>;
   deletePostFormat: (args: {
     input: DeletePostFormatInput;
@@ -13976,6 +14553,7 @@ export interface Mutation {
     input: UpdateMediaItemInput;
   }) => Maybe<UpdateMediaItemPayload>;
   updatePage: (args: { input: UpdatePageInput }) => Maybe<UpdatePagePayload>;
+  updatePhoto: (args: { input: UpdatePhotoInput }) => Maybe<UpdatePhotoPayload>;
   updatePost: (args: { input: UpdatePostInput }) => Maybe<UpdatePostPayload>;
   updatePostFormat: (args: {
     input: UpdatePostFormatInput;
@@ -14095,6 +14673,24 @@ export interface Query {
     last?: Maybe<Scalars["Int"]>;
     where?: Maybe<RootQueryToPageConnectionWhereArgs>;
   }) => Maybe<RootQueryToPageConnection>;
+  photo: (args: {
+    asPreview?: Maybe<Scalars["Boolean"]>;
+    id: Scalars["ID"];
+    idType?: Maybe<PhotoIdType>;
+  }) => Maybe<Photo>;
+  photoBy: (args?: {
+    id?: Maybe<Scalars["ID"]>;
+    photoId?: Maybe<Scalars["Int"]>;
+    slug?: Maybe<Scalars["String"]>;
+    uri?: Maybe<Scalars["String"]>;
+  }) => Maybe<Photo>;
+  photos: (args?: {
+    after?: Maybe<Scalars["String"]>;
+    before?: Maybe<Scalars["String"]>;
+    first?: Maybe<Scalars["Int"]>;
+    last?: Maybe<Scalars["Int"]>;
+    where?: Maybe<RootQueryToPhotoConnectionWhereArgs>;
+  }) => Maybe<RootQueryToPhotoConnection>;
   plugin: (args: { id: Scalars["ID"] }) => Maybe<Plugin>;
   plugins: (args?: {
     after?: Maybe<Scalars["String"]>;
@@ -14251,6 +14847,7 @@ export interface SchemaObjectTypes {
   CreateCommentPayload: CreateCommentPayload;
   CreateMediaItemPayload: CreateMediaItemPayload;
   CreatePagePayload: CreatePagePayload;
+  CreatePhotoPayload: CreatePhotoPayload;
   CreatePostFormatPayload: CreatePostFormatPayload;
   CreatePostPayload: CreatePostPayload;
   CreateTagPayload: CreateTagPayload;
@@ -14260,6 +14857,7 @@ export interface SchemaObjectTypes {
   DeleteCommentPayload: DeleteCommentPayload;
   DeleteMediaItemPayload: DeleteMediaItemPayload;
   DeletePagePayload: DeletePagePayload;
+  DeletePhotoPayload: DeletePhotoPayload;
   DeletePostFormatPayload: DeletePostFormatPayload;
   DeletePostPayload: DeletePostPayload;
   DeleteTagPayload: DeleteTagPayload;
@@ -14298,6 +14896,8 @@ export interface SchemaObjectTypes {
   PageToPreviewConnectionEdge: PageToPreviewConnectionEdge;
   PageToRevisionConnection: PageToRevisionConnection;
   PageToRevisionConnectionEdge: PageToRevisionConnectionEdge;
+  Photo: Photo;
+  PhotoToPreviewConnectionEdge: PhotoToPreviewConnectionEdge;
   Plugin: Plugin;
   Post: Post;
   PostFormat: PostFormat;
@@ -14347,6 +14947,8 @@ export interface SchemaObjectTypes {
   RootQueryToMenuItemConnectionEdge: RootQueryToMenuItemConnectionEdge;
   RootQueryToPageConnection: RootQueryToPageConnection;
   RootQueryToPageConnectionEdge: RootQueryToPageConnectionEdge;
+  RootQueryToPhotoConnection: RootQueryToPhotoConnection;
+  RootQueryToPhotoConnectionEdge: RootQueryToPhotoConnectionEdge;
   RootQueryToPluginConnection: RootQueryToPluginConnection;
   RootQueryToPluginConnectionEdge: RootQueryToPluginConnectionEdge;
   RootQueryToPostConnection: RootQueryToPostConnection;
@@ -14386,6 +14988,7 @@ export interface SchemaObjectTypes {
   UpdateCommentPayload: UpdateCommentPayload;
   UpdateMediaItemPayload: UpdateMediaItemPayload;
   UpdatePagePayload: UpdatePagePayload;
+  UpdatePhotoPayload: UpdatePhotoPayload;
   UpdatePostFormatPayload: UpdatePostFormatPayload;
   UpdatePostPayload: UpdatePostPayload;
   UpdateSettingsPayload: UpdateSettingsPayload;
@@ -14449,6 +15052,7 @@ export type SchemaObjectTypesNames =
   | "CreateCommentPayload"
   | "CreateMediaItemPayload"
   | "CreatePagePayload"
+  | "CreatePhotoPayload"
   | "CreatePostFormatPayload"
   | "CreatePostPayload"
   | "CreateTagPayload"
@@ -14458,6 +15062,7 @@ export type SchemaObjectTypesNames =
   | "DeleteCommentPayload"
   | "DeleteMediaItemPayload"
   | "DeletePagePayload"
+  | "DeletePhotoPayload"
   | "DeletePostFormatPayload"
   | "DeletePostPayload"
   | "DeleteTagPayload"
@@ -14496,6 +15101,8 @@ export type SchemaObjectTypesNames =
   | "PageToPreviewConnectionEdge"
   | "PageToRevisionConnection"
   | "PageToRevisionConnectionEdge"
+  | "Photo"
+  | "PhotoToPreviewConnectionEdge"
   | "Plugin"
   | "Post"
   | "PostFormat"
@@ -14545,6 +15152,8 @@ export type SchemaObjectTypesNames =
   | "RootQueryToMenuItemConnectionEdge"
   | "RootQueryToPageConnection"
   | "RootQueryToPageConnectionEdge"
+  | "RootQueryToPhotoConnection"
+  | "RootQueryToPhotoConnectionEdge"
   | "RootQueryToPluginConnection"
   | "RootQueryToPluginConnectionEdge"
   | "RootQueryToPostConnection"
@@ -14584,6 +15193,7 @@ export type SchemaObjectTypesNames =
   | "UpdateCommentPayload"
   | "UpdateMediaItemPayload"
   | "UpdatePagePayload"
+  | "UpdatePhotoPayload"
   | "UpdatePostFormatPayload"
   | "UpdatePostPayload"
   | "UpdateSettingsPayload"
@@ -14618,6 +15228,7 @@ export interface $Commenter {
 export interface $ContentNode {
   MediaItem?: MediaItem;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
 }
 
@@ -14637,6 +15248,7 @@ export interface $DatabaseIdentifier {
   Menu?: Menu;
   MenuItem?: MenuItem;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
   PostFormat?: PostFormat;
   Tag?: Tag;
@@ -14660,6 +15272,7 @@ export interface $HierarchicalTermNode {
 export interface $MenuItemLinkable {
   Category?: Category;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
   PostFormat?: PostFormat;
   Tag?: Tag;
@@ -14668,6 +15281,7 @@ export interface $MenuItemLinkable {
 export interface $MenuItemObjectUnion {
   Category?: Category;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
   PostFormat?: PostFormat;
   Tag?: Tag;
@@ -14684,6 +15298,7 @@ export interface $Node {
   Menu?: Menu;
   MenuItem?: MenuItem;
   Page?: Page;
+  Photo?: Photo;
   Plugin?: Plugin;
   Post?: Post;
   PostFormat?: PostFormat;
@@ -14708,15 +15323,18 @@ export interface $NodeWithComments {
 
 export interface $NodeWithContentEditor {
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
 }
 
 export interface $NodeWithExcerpt {
+  Photo?: Photo;
   Post?: Post;
 }
 
 export interface $NodeWithFeaturedImage {
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
 }
 
@@ -14732,12 +15350,14 @@ export interface $NodeWithRevisions {
 export interface $NodeWithTemplate {
   MediaItem?: MediaItem;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
 }
 
 export interface $NodeWithTitle {
   MediaItem?: MediaItem;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
 }
 
@@ -14756,6 +15376,7 @@ export interface $UniformResourceIdentifiable {
   ContentType?: ContentType;
   MediaItem?: MediaItem;
   Page?: Page;
+  Photo?: Photo;
   Post?: Post;
   PostFormat?: PostFormat;
   Tag?: Tag;
@@ -14791,6 +15412,7 @@ export interface ScalarsEnums extends MakeNullable<Scalars> {
   MimeTypeEnum: MimeTypeEnum | undefined;
   OrderEnum: OrderEnum | undefined;
   PageIdType: PageIdType | undefined;
+  PhotoIdType: PhotoIdType | undefined;
   PostFormatIdType: PostFormatIdType | undefined;
   PostIdType: PostIdType | undefined;
   PostObjectFieldFormatEnum: PostObjectFieldFormatEnum | undefined;
