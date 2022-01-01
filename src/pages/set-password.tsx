@@ -14,7 +14,7 @@ export default function Page() {
   console.log(query);
   //   const params = new URLSearchParams(window.location.search);
   const resetKey = (query.key as string) || "";
-  const login = (query.login as string) || "";
+  const email = (query.login as string) || "";
 
   return (
     <>
@@ -30,7 +30,7 @@ export default function Page() {
       <Hero title="Set Password" />
 
       <main className="content content-single">
-        <SetPasswordForm resetKey={resetKey} login={login} />
+        <SetPasswordForm resetKey={resetKey} email={email} />
       </main>
 
       <Footer copyrightHolder={generalSettings.title} />
