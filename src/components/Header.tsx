@@ -7,6 +7,80 @@ interface Props {
   title?: string;
   description?: string;
 }
+function UserRoleLinks(): JSX.Element {
+  const { useAuth, useQuery } = client.auth;
+  const { isLoading, isAuthenticated } = useAuth({ shouldRedirect: false });
+
+  const { menuItems } = client.useQuery();
+
+  const query = useQuery({
+    prepare({ prepass, query }) {
+      prepass(query.viewer, "roles");
+    },
+    suspense: false,
+  });
+
+  if (query.$state.isLoading) return <p>Loading...</p>;
+
+  const role = query.viewer?.roles({ first: 1 }).nodes[0]?.name;
+
+  const menuLinks =
+    role == "subscriber"
+      ? menuItems({
+          where: { location: MenuLocationEnum.SUBSCRIBER },
+        }).nodes
+      : menuItems({
+          where: { location: MenuLocationEnum.ADMIN },
+        }).nodes;
+
+  return (
+    <>
+      {role == "subscriber" && <div className="hidden">Subscribe</div>}
+      <ul>
+        {menuLinks?.map((link) => (
+          <li key={`${link.label}$-menu`}>
+            <Link href={link.url ?? ""}>
+              <a href={link.url}>{link.label}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function UserRoleLinks2(): JSX.Element {
+  const { useAuth, useQuery } = client.auth;
+  const { isLoading, isAuthenticated } = useAuth({ shouldRedirect: false });
+
+  const { menuItems } = client.useQuery();
+  const viewer = useQuery()?.viewer;
+  const role = viewer?.roles({ first: 1 }).nodes[0]?.name;
+
+  const menuLinks =
+    role == "subscriber"
+      ? menuItems({
+          where: { location: MenuLocationEnum.SUBSCRIBER },
+        }).nodes
+      : menuItems({
+          where: { location: MenuLocationEnum.ADMIN },
+        }).nodes;
+
+  return (
+    <>
+      {role == "subscriber" && <div className="hidden">Subscribe</div>}
+      <ul>
+        {menuLinks?.map((link) => (
+          <li key={`${link.label}$-menu`}>
+            <Link href={link.url ?? ""}>
+              <a href={link.url}>{link.label}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
 
 function Header({
   title = "Headless by WP Engine",
@@ -51,6 +125,7 @@ function Header({
                     </Link>
                   </li>
                 ))}
+                <UserRoleLinks2 />
               </>
             ) : (
               <>
