@@ -86,15 +86,15 @@ export default function SignUpForm() {
           required
         />
 
-        {/* {error ? (
+        {error ? (
           error.message.includes("This username is already registered") ? (
             <p className="error-message">
-              You&#39;re already signed up! <Link to="/log-in">Log in</Link>
+              You&#39;re already signed up! <Link href="/log-in">Log in</Link>
             </p>
           ) : (
             <p className="error-message">{error.message}</p>
           )
-        ) : null} */}
+        ) : null}
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Signing up..." : "Sign up"}
         </button>

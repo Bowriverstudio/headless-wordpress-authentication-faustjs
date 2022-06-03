@@ -2,6 +2,8 @@
 
 This POC is the faustjs sample, with Authentication and is a hybrid of these resources:
 
+https://headless-wordpress-authentication-faustjs.vercel.app/
+
 - [headless-wordpress-authentication-native-cookies-gatsby](https://github.com/kellenmace/headless-wordpress-authentication-native-cookies-gatsby)
 
 - [headless-wordpress-authentication-native-cookies](https://developers.wpengine.com/blog/headless-wordpress-authentication-native-cookies)
@@ -36,18 +38,43 @@ Add something like the following to
 /**
  * Welcome Email
  */
-add_filter('wp_new_user_notification_email', brs_new_user_notification_email, 10, 3);
 
-function brs_new_user_notification_email($wp_new_user_notification_email, $user, $blogname) {
+use function WPE\FaustWP\Settings\faustwp_get_setting;
 
- 	$message = $wp_new_user_notification_email['message'];
-    $message = str_replace( site_url().'/wp-admin/',wpe_headless_get_setting("frontend_uri") '/set-password/', $message );
+
+add_filter( 'wp_new_user_notification_email', brs_new_user_notification_email, 10, 3 );
+
+function brs_new_user_notification_email( $wp_new_user_notification_email, $user, $blogname ) {
+
+	$message                                   = $wp_new_user_notification_email['message'];
+	$message                                   = str_replace( site_url() . '/wp-admin/', faustwp_get_setting( 'frontend_uri' ) . '/set-password/', $message );
 	$wp_new_user_notification_email['message'] = $message;
 
-//	$wp_new_user_notification_email['headers'] = array('Content-Type: text/html; charset=UTF-8');
+	// $wp_new_user_notification_email['headers'] = array('Content-Type: text/html; charset=UTF-8');
 
-    return $wp_new_user_notification_email;
+	return $wp_new_user_notification_email;
 }
+
+add_filter(
+	'retrieve_password_message',
+	function ( $message, $key, $user_login, $user_data ) {
+
+		$message = '';
+
+		$message .= 'Please reset the password ';
+		$message .= ' If this was a mistake, ignore this email and nothing will happen.';
+
+		$message .= ' To reset your password, visit the following address:';
+
+		$url      = faustwp_get_setting( 'frontend_uri' ) . '/set-password?login=' . $user_login . '&key=' . $key;
+		$message .= '<br/><br/>Please click the following link <br/><br/> <a href="' . $url . '">Set Password</a>';
+		$message .= '';
+		return $message;
+	},
+	10,
+	4
+);
+
 ```
 
 ## Functionality
